@@ -2,9 +2,13 @@ import React from 'react';
 import { User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+
 const HomepageSA = () => {
   const navigate = useNavigate();
   
+  /**
+   *this handles user logout
+   */
   const handleLogout = () => {
     sessionStorage.removeItem('isAuthenticated');
     sessionStorage.removeItem('userRole');
@@ -13,16 +17,20 @@ const HomepageSA = () => {
 
   return (
     <div className="flex h-screen bg-[#F8F7F6] p-4">
-      {/* Floating Sidebar */}
+      {/* 
+        this is for the Sidebar navigation
+      */}
       <aside className="w-64 h-[98%] bg-[#614B3B] rounded-2xl shadow-lg m-2">
         <div className="p-6 h-full flex flex-col">
-          {/* Logo Section */}
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-8 h-8 bg-white rounded-full" />
-            <h2 className="text-white text-lg font-semibold">Quote System</h2>
+          {/* title section */}
+          <div className="mb-8">
+            <h1 className="text-white text-lg font-bold">Quote System</h1>
           </div>
 
-          {/* Navigation Buttons */}
+          {/* 
+            navigation menu which has all main functions available to sales associates.
+            Each button will take the user to a different workspace
+          */}
           <nav className="space-y-2 flex-1">
             <button className="w-full text-left text-white px-4 py-3 hover:bg-[#725A49] rounded-xl flex items-center gap-3 transition-colors">
               Enter Sales Quote
@@ -44,7 +52,7 @@ const HomepageSA = () => {
             </button>
           </nav>
 
-          {/* Logout Button */}
+          {/* logout button */}
           <button
             onClick={handleLogout}
             className="w-full text-left text-white px-4 py-3 hover:bg-[#725A49] rounded-xl flex items-center gap-3 mt-auto transition-colors"
@@ -54,9 +62,13 @@ const HomepageSA = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* 
+        this is for the main area
+      */}
       <main className="flex-1 rounded-2xl bg-white ml-4 shadow-lg overflow-hidden">
-        {/* Header */}
+        {/* 
+          header
+        */}
         <header className="bg-white border-b p-4 flex justify-between items-center">
           <h1 className="text-xl font-semibold">Sales Associate Dashboard</h1>
           <div className="flex items-center gap-4">
@@ -69,48 +81,35 @@ const HomepageSA = () => {
           </div>
         </header>
 
-        {/* Dashboard Content */}
+        {/* 
+          dashboard Content
+        */}
         <div className="p-6 space-y-6 bg-[#F8F7F6]">
-          {/* Stats Grid */}
-          <div className="grid grid-cols-4 gap-4">
-            <div className="bg-[#8B6F5C] text-white p-4 rounded-xl shadow-sm">
-              <h3 className="text-sm opacity-90 mb-1">Active Quotes</h3>
-              <p className="text-2xl font-bold">5</p>
+          {/* 
+            stats bubbles
+          */}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-[#8B6F5C] text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center">
+              <h3 className="text-sm opacity-90 mb-1 text-center">Active Quotes</h3>
+              <p className="text-2xl font-bold text-center">-</p>
             </div>
-            <div className="bg-[#B4A194] p-4 rounded-xl shadow-sm">
-              <h3 className="text-sm opacity-90 mb-1">Monthly Sales</h3>
-              <p className="text-2xl font-bold">$12,450</p>
+            <div className="bg-[#B4A194] text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center">
+              <h3 className="text-sm opacity-90 mb-1 text-center">Monthly Sales</h3>
+              <p className="text-2xl font-bold text-center">-</p>
             </div>
-            <div className="bg-[#9D8475] p-4 rounded-xl shadow-sm">
-              <h3 className="text-sm opacity-90 mb-1">Commission</h3>
-              <p className="text-2xl font-bold">$1,245</p>
-            </div>
-            <div className="bg-[#B4A194] p-4 rounded-xl shadow-sm">
-              <h3 className="text-sm opacity-90 mb-1">Success Rate</h3>
-              <p className="text-2xl font-bold">87%</p>
+            <div className="bg-[#9D8475] text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center">
+              <h3 className="text-sm opacity-90 mb-1 text-center">Commission</h3>
+              <p className="text-2xl font-bold text-center">-</p>
             </div>
           </div>
 
-          {/* Content Sections */}
-          <div className="grid grid-cols-2 gap-6">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-lg font-semibold mb-4">Recent Quotes</h2>
-              <div className="space-y-3">
-                <div className="p-4 border border-gray-100 rounded-xl">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Quote #12345</span>
-                    <span className="text-[#8B6F5C]">$1,200</span>
-                  </div>
-                  <p className="text-gray-600 text-sm">Customer: John Doe</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-lg font-semibold mb-4">Monthly Activity</h2>
-              <div className="h-64 flex items-center justify-center text-gray-500">
-                Activity chart will be displayed here
-              </div>
+          {/* 
+            workspace area which  changes based on selected sidebar option
+          */}
+          <div className="bg-white rounded-xl shadow-sm p-6 min-h-[500px] flex flex-col items-center">
+            <h1 className="text-3xl font-bold mb-8 text-[#614B3B]">Workspace</h1>
+            <div className="flex items-center justify-center flex-1 text-gray-500 text-lg">
+              Select an activity from the sidebar to begin
             </div>
           </div>
         </div>
