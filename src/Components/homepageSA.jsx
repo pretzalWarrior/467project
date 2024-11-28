@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 // Import pages components
 import SalesQuotePage from './Pages/SalesQuotePage';
 import EditQuotePage from './Pages/EditQuotePage';
-import QuoteEmailPage from './Pages/QuoteEmailPage';
 import ViewQuotesPage from './Pages/ViewQuotesPage';
 import CommissionPage from './Pages/CommissionPage';
 
@@ -19,15 +18,12 @@ const HomepageSA = () => {
     navigate('/');
   };
 
-  // Updated renderPage function to use the imported components
   const renderPage = () => {
     switch(currentPage) {
       case 'enterQuote':
         return <SalesQuotePage />;
       case 'editQuote':
         return <EditQuotePage />;
-      case 'reviewEmail':
-        return <QuoteEmailPage />;
       case 'viewQuotes':
         return <ViewQuotesPage />;
       case 'commission':
@@ -72,13 +68,6 @@ const HomepageSA = () => {
               Edit Quote
             </button>
             <button 
-              onClick={() => setCurrentPage('reviewEmail')}
-              className={`w-full text-left text-white px-4 py-3 rounded-xl flex items-center gap-3 transition-colors
-                ${currentPage === 'reviewEmail' ? 'bg-[#725A49]' : 'hover:bg-[#725A49]'}`}
-            >
-              Review Quote Email
-            </button>
-            <button 
               onClick={() => setCurrentPage('viewQuotes')}
               className={`w-full text-left text-white px-4 py-3 rounded-xl flex items-center gap-3 transition-colors
                 ${currentPage === 'viewQuotes' ? 'bg-[#725A49]' : 'hover:bg-[#725A49]'}`}
@@ -105,7 +94,7 @@ const HomepageSA = () => {
       </aside>
 
       {/* main area */}
-      <main className="flex-1 rounded-2xl bg-white ml-4 shadow-lg overflow-hidden">
+      <main className="flex-1 flex flex-col rounded-2xl bg-white ml-4 shadow-lg overflow-hidden">
         {/* header */}
         <header className="bg-white border-b p-4 flex justify-between items-center">
           <h1 className="text-xl font-semibold">Sales Associate Dashboard</h1>
@@ -120,21 +109,17 @@ const HomepageSA = () => {
         </header>
 
         {/* dashboard content */}
-        <div className="p-6 space-y-6 bg-[#F8F7F6]">
-          {/* stats bubbles */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-[#8B6F5C] text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center">
-              <h3 className="text-sm opacity-90 mb-1 text-center">Quotes to Review</h3>
-              <p className="text-2xl font-bold text-center">-</p>
-            </div>
-            <div className="bg-[#9D8475] text-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center">
-              <h3 className="text-sm opacity-90 mb-1 text-center">Commission</h3>
-              <p className="text-2xl font-bold text-center">-</p>
+        <div className="flex-1 flex flex-col min-h-0 p-6 space-y-6 bg-[#F8F7F6]">
+          {/* stats bubble */}
+          <div className="flex justify-center">
+            <div className="bg-[#9D8475] text-white rounded-xl shadow-sm inline-flex flex-col items-center justify-center px-8 py-4">
+              <h3 className="text-sm opacity-90 mb-1">Total Commission</h3>
+              <p className="text-2xl font-bold">$1,234.56</p>
             </div>
           </div>
 
           {/* workspace area */}
-          <div className="bg-white rounded-xl shadow-sm p-6 min-h-[500px] flex flex-col">
+          <div className="flex-1 flex flex-col min-h-0 bg-white rounded-xl shadow-sm">
             {renderPage()}
           </div>
         </div>
