@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+
 // Import pages components
-import SalesQuotePage from './Pages/SalesQuotePage';
-import EditQuotePage from './Pages/EditQuotePage';
-import ViewQuotesPage from './Pages/ViewQuotesPage';
-import CommissionPage from './Pages/CommissionPage';
+import SalesQuotePage from './Pages/SalesAssociate/SalesQuotePage';
+import EditQuotePage from './Pages/SalesAssociate/EditQuotePage';
+import ViewQuotesPage from './Pages/SalesAssociate/ViewQuotesPage';
+import CommissionPage from './Pages/SalesAssociate/CommissionPage';
+
 
 const HomepageSA = () => {
   const navigate = useNavigate();
@@ -96,28 +97,12 @@ const HomepageSA = () => {
       {/* main area */}
       <main className="flex-1 flex flex-col rounded-2xl bg-white ml-4 shadow-lg overflow-hidden">
         {/* header */}
-        <header className="bg-white border-b p-4 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Sales Associate Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <input
-              type="search"
-              placeholder="Search..."
-              className="px-4 py-2 rounded-lg border border-gray-200"
-            />
-            <User className="w-8 h-8 text-gray-600" />
-          </div>
+        <header className="bg-white border-b p-4 flex justify-center items-center">
+          <h1 className="text-2xl font-bold text-[#614B3B]">Sales Associate Dashboard</h1>
         </header>
 
         {/* dashboard content */}
         <div className="flex-1 flex flex-col min-h-0 p-6 space-y-6 bg-[#F8F7F6]">
-          {/* stats bubble */}
-          <div className="flex justify-center">
-            <div className="bg-[#9D8475] text-white rounded-xl shadow-sm inline-flex flex-col items-center justify-center px-8 py-4">
-              <h3 className="text-sm opacity-90 mb-1">Total Commission</h3>
-              <p className="text-2xl font-bold">$1,234.56</p>
-            </div>
-          </div>
-
           {/* workspace area */}
           <div className="flex-1 flex flex-col min-h-0 bg-white rounded-xl shadow-sm">
             {renderPage()}

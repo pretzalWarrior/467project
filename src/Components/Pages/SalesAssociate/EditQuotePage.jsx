@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Save, Unlock, Check, FileEdit } from 'lucide-react';
+import { Plus, Trash2, Save, Unlock, Check, FileEdit, ArrowDownUp } from 'lucide-react';
 
 const EditQuotePage = () => {
   // State for quotes list and selected quote
   const [quotes, setQuotes] = useState([]);
   const [selectedQuote, setSelectedQuote] = useState(null);
+  const [sortOrder, setSortOrder] = useState('desc');
 
   // Initial fetch of draft quotes
   useEffect(() => {
@@ -12,10 +13,11 @@ const EditQuotePage = () => {
     const mockQuotes = [
       {
         id: 1,
-        customer: { name: "Acme Corp", email: "contact@acme.com" },
+        customer: { name: "Acme Corp", email: "contact@acmecorp.com" },
         status: "draft",
-        total: 1500.00,
+        total: 2500.00,
         createdAt: "2024-03-15",
+        salesAssociate: "John Doe",
         lineItems: [
           { description: "Service A", price: "1000.00", isLocked: false },
           { description: "Service B", price: "500.00", isLocked: false }
@@ -24,10 +26,11 @@ const EditQuotePage = () => {
       },
       {
         id: 2,
-        customer: { name: "TechStart Inc", email: "info@techstart.com" },
+        customer: { name: "Tech Solutions", email: "info@techsolutions.com" },
         status: "draft",
-        total: 2500.00,
+        total: 3200.00,
         createdAt: "2024-03-16",
+        salesAssociate: "Jane Smith",
         lineItems: [
           { description: "Consulting", price: "2500.00", isLocked: false }
         ],
@@ -38,13 +41,22 @@ const EditQuotePage = () => {
     setQuotes(mockQuotes);
   }, []);
 
-  // Handle quote selection
-  const handleQuoteSelect = (e) => {
-    const quote = quotes.find(q => q.id === parseInt(e.target.value));
-    setSelectedQuote(quote || null);
+  const toggleSort = () => {
+    setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc');
   };
 
-  // Handle line item changes
+  const sortedQuotes = [...quotes].sort((a, b) => {
+    const dateA = new Date(a.createdAt);
+    const dateB = new Date(b.createdAt);
+    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+  });
+
+  // Rest of the handlers remain the same
+  const handleQuoteSelect = (quote) => {
+    setSelectedQuote(quote);
+  };
+
+  // All other handlers remain unchanged...
   const handleLineItemChange = (index, field, value) => {
     if (!selectedQuote) return;
     
@@ -61,7 +73,6 @@ const EditQuotePage = () => {
     }));
   };
 
-  // Add new line item
   const addLineItem = () => {
     if (!selectedQuote) return;
     
@@ -71,7 +82,6 @@ const EditQuotePage = () => {
     }));
   };
 
-  // Remove line item
   const removeLineItem = (index) => {
     if (!selectedQuote || selectedQuote.lineItems.length <= 1) return;
     
@@ -83,7 +93,6 @@ const EditQuotePage = () => {
     }));
   };
 
-  // Toggle line item lock
   const toggleLineItemLock = (index) => {
     if (!selectedQuote) return;
     
@@ -105,7 +114,6 @@ const EditQuotePage = () => {
     }));
   };
 
-  // Handle notes change
   const handleNotesChange = (e) => {
     if (!selectedQuote) return;
     
@@ -115,7 +123,6 @@ const EditQuotePage = () => {
     }));
   };
 
-  // Save changes
   const handleSave = async (action) => {
     if (!selectedQuote) return;
     
@@ -137,31 +144,48 @@ const EditQuotePage = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Header with Quote Selection */}
-      <div className="flex-none p-6 border-b bg-white">
-        <h1 className="text-2xl font-bold text-[#614B3B] text-center mb-4">Edit Quote</h1>
-        <div className="flex justify-center">
-          <select
-            onChange={handleQuoteSelect}
-            value={selectedQuote?.id || ''}
-            className="w-96 h-10 px-3 border rounded-lg focus:ring-2 focus:ring-[#8B6F5C] bg-white"
+    <div className="flex h-full">
+      {/* Left Panel - Quote List */}
+      <div className="w-1/3 border-r overflow-y-auto">
+        <div className="p-4">
+          {/* Sort Button */}
+          <button
+            onClick={toggleSort}
+            className="flex items-center gap-2 text-gray-600 mb-4"
           >
-            <option value="">Select a quote to edit</option>
-            {quotes.map(quote => (
-              <option key={quote.id} value={quote.id}>
-                {quote.customer.name} - ${quote.total.toFixed(2)}
-              </option>
+            <ArrowDownUp size={16} />
+            Sort by newest first
+          </button>
+
+          {/* Quote List */}
+          <div className="space-y-4">
+            {sortedQuotes.map(quote => (
+              <div
+                key={quote.id}
+                onClick={() => handleQuoteSelect(quote)}
+                className={`p-4 rounded-lg border cursor-pointer hover:border-[#614B3B] ${
+                  selectedQuote?.id === quote.id ? 'border-[#614B3B] bg-[#F8F7F6]' : ''
+                }`}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-medium">{quote.customer.name}</h3>
+                  <span className="text-gray-600">${quote.total.toFixed(2)}</span>
+                </div>
+                <div className="text-sm text-gray-500">
+                  <p>By: {quote.salesAssociate}</p>
+                  <p>Email: {quote.customer.email}</p>
+                </div>
+              </div>
             ))}
-          </select>
+          </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col min-h-0">
+      {/* Right Panel - Quote Details */}
+      <div className="flex-1 flex flex-col">
         {!selectedQuote ? (
           <div className="flex-1 flex items-center justify-center text-gray-500">
-            Select a quote to edit
+            Select a quote to review its details
           </div>
         ) : (
           <>
@@ -263,7 +287,7 @@ const EditQuotePage = () => {
                     className="flex items-center gap-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
                   >
                     <FileEdit size={16} />
-                    Finalize Quote
+                    Send to HQ
                   </button>
                 </div>
               </div>
